@@ -1,6 +1,7 @@
 // pages/index.js
 import { useState } from 'react';
 import axios from 'axios';
+import Head from 'next/head';
 
 export default function Home() {
   const [message, setMessage] = useState('');
@@ -8,23 +9,35 @@ export default function Home() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await axios.post('/api/chat', { prompt: message });
-    setResponse(res.data.result);
+    try {
+      const res = await axios.post('/api/chat', { prompt: message });
+      setResponse(res.data.result);
+    } catch (error) {
+      console.error('Error:', error);
+      setResponse('Error communicating with the server.');
+    }
   };
 
   return (
-    <div>
-      <h1>Llama Chat</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Ask Llama..."
-        />
-        <button type="submit">Send</button>
-      </form>
-      <p>{response}</p>
-    </div>
+    <>
+      <Head>
+        <title>Llama Chat</title>
+      </Head>
+      <div className="container">
+        <main>
+          <h1>Llama Chat</h1>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="Ask Llama..."
+            />
+            <button type="submit">Send</button>
+          </form>
+          {response && <p>{response}</p>}
+        </main>
+      </div>
+    </>
   );
 }
