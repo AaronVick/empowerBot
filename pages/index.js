@@ -3,7 +3,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import Head from 'next/head';
 
-export default function Home() {
+const HomePage = () => {
   const [message, setMessage] = useState('');
   const [response, setResponse] = useState('');
 
@@ -22,6 +22,7 @@ export default function Home() {
     <>
       <Head>
         <title>Llama Chat</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <div className="container">
         <main>
@@ -40,4 +41,6 @@ export default function Home() {
       </div>
     </>
   );
-}
+};
+
+export default HomePage;
